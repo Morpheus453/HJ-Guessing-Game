@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>HJ Game</title>
+        <link rel="stylesheet" href="style.css">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    </head>
+
+    <body>
+
+        <div id="result">
+            <div id="container">
+                <h1 id="message"><span id="res">You got it!</span>  <img id="back-img" src="./res/back.webp"></h1>
+                <div id="distribution">
+                    <h2 id="dist-label">DISTRIBUTION</h2>
+                    <div class="distribution-bar">
+                        <span class="label">1</span><span class="bar">0</span>
+                    </div>
+                    <div class="distribution-bar">
+                        <span class="label">2</span><span class="bar">0</span>
+                    </div>
+                    <div class="distribution-bar">
+                        <span class="label">3</span><span class="bar">0</span>
+                    </div>
+                </div>
+                <h2 id="chapter">Chapter 3</h2>
+            </div>
+        </div>
+        <div id="game">
+            <div id="panel-holder">
+                <div id="panel">
+                    <img id="panel-img">
+                </div>
+                <div id="controls">
+                    <span id="number-display"><span id="panel-number">1</span> / 5</span>
+                    <div id="button-holder">
+                        <span class="text-btn" id="left-button"><</span>
+                        <span class="text-btn" id="right-button">></span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="input">
+                <div>
+                    <label for="episodes" id="guesses">Guesses remaining: 3</label>
+                    <select name="episodes" id="episode-select"></select>
+                </div>
+                <div>
+                    <button id="submit">Make Guess</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="magnified">
+            <img id="magnified-back" src="./res/back.webp">
+            <img id="magnified-img" src="./panels/chapter_1/split_5.webp">
+        </div>
+
+        <script src="script.js" defer></script>
+    </body>
+</html>
