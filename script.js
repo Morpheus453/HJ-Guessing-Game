@@ -22,7 +22,7 @@ function seeded_random_number() {
  * Loading the panel images into the game
  */
 
-const episode = 20//seeded_random_number() % episodes.length;
+const episode = seeded_random_number() % episodes.length;
 const number_of_panels = lengths[episode];
 const panels = [];
 
