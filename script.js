@@ -62,6 +62,7 @@ function loadGame() {
     alreadyGuessed = false;
     guessesRemaining = 3;
     document.getElementById("guesses").innerText = "Guesses remaining: 3";
+    document.getElementById("res").innerText = "You got it!";
 }
 
 loadGame();
