@@ -56,6 +56,7 @@ function loadGame() {
     panelImg.src = `./panels/chapter_${episode+1}/split_${panels[0]+1}.webp`;
     document.getElementById("unlimited").style.display = "none";
     document.getElementById("episode-select").classList.remove("no-input");
+    document.getElementById("submit").innerText = "Make guess";
 }
 
 loadGame();
