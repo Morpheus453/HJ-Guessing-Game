@@ -37,12 +37,12 @@ var inUlimited = false;
  * Function that loads the game, sets up all the variables
  */
 function loadGame() {
-    episode = seeded_random_number() % episodes.length;
+    episode = inUlimited ? Math.floor(Math.random()*episodes.length): seeded_random_number() % episodes.length;
     number_of_panels = lengths[episode];
     panels = [];
 
     for (let i = 0; i < 4; i++) {
-        let number = seeded_random_number() % number_of_panels;
+        let number = inUlimited ? Math.floor(Math.random() * number_of_panels): seeded_random_number() % number_of_panels;
 
         console.log(episode);
 
@@ -54,18 +54,21 @@ function loadGame() {
     }
 
     panelImg.src = `./panels/chapter_${episode+1}/split_${panels[0]+1}.webp`;
+    currentPanel = 0;
+    panelNumber.innerText = "1";
     document.getElementById("unlimited").style.display = "none";
     document.getElementById("episode-select").classList.remove("no-input");
     document.getElementById("submit").innerText = "Make guess";
     alreadyGuessed = false;
     guessesRemaining = 3;
+    document.getElementById("guesses").innerText = "Guesses remaining: 3";
 }
 
 loadGame();
 
 document.getElementById("chapter").innerText = episodes[episodes.length-1 - episode];
 document.getElementById("unlimited").addEventListener("click", e => {
-    for (let i = 0; i < Math.floor(Math.random() * 20); i++) { seeded_random_number() }
+    for (let i = 0; i < Math.floor(Math.random()*50); i++) { seeded_random_number() }
     inUlimited = true;
     loadGame();
 });
