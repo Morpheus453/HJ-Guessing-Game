@@ -58,6 +58,7 @@ function loadGame() {
     document.getElementById("episode-select").classList.remove("no-input");
     document.getElementById("submit").innerText = "Make guess";
     alreadyGuessed = false;
+    guessesRemaining = 3;
 }
 
 loadGame();
