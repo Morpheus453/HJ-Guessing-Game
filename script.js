@@ -22,17 +22,50 @@ function seeded_random_number() {
  * Loading the panel images into the game
  */
 
-const episode = seeded_random_number() % episodes.length;
-const number_of_panels = lengths[episode];
-const panels = [];
+var episode;
+var number_of_panels;
+var panels = [];
 
 const panelImg = document.getElementById("panel-img");
 const panelNumber = document.getElementById("panel-number");
 var currentPanel = 0;
 var guessesRemaining = 3;
 var alreadyGuessed = false;
+var inUlimited = false;
+
+/**
+ * Function that loads the game, sets up all the variables
+ */
+function loadGame() {
+    episode = seeded_random_number() % episodes.length;
+    number_of_panels = lengths[episode];
+    panels = [];
+
+    for (let i = 0; i < 4; i++) {
+        let number = seeded_random_number() % number_of_panels;
+
+        console.log(episode);
+
+        while (panels.includes(number)) {
+            number = (number+1) % number_of_panels;
+        }
+
+        panels.push(number);
+    }
+
+    panelImg.src = `./panels/chapter_${episode+1}/split_${panels[0]+1}.webp`;
+    document.getElementById("unlimited").style.display = "none";
+    document.getElementById("episode-select").classList.remove("no-input");
+}
+
+loadGame();
 
 document.getElementById("chapter").innerText = episodes[episodes.length-1 - episode];
+document.getElementById("unlimited").addEventListener("click", e => {
+    for (let i = 0; i < Math.floor(Math.random() * 20); i++) { seeded_random_number() }
+    inUlimited = true;
+    loadGame();
+});
 
 if (localStorage.getItem("solved-at") == date.toDateString()) {
     console.log("?");
@@ -68,27 +101,19 @@ if (localStorage.getItem("solved-at") == date.toDateString()) {
     }
 }
 
-for (let i = 0; i < 5; i++) {
-    let number = seeded_random_number() % number_of_panels;
-
-    console.log(episode);
-
-    while (panels.includes(number)) {
-        number = (number+1) % number_of_panels;
-    }
-
-    panels.push(number);
-}
-
 for (let i = 0; i < episodes.length; i++) {
-    document.getElementById("episode-select").insertAdjacentHTML("beforeend", `<option value=${i}>${episodes[episodes.length-1 - i]}</option>`)
+    document.getElementById("episode-select").insertAdjacentHTML("beforeend", `<option value=${i}>${episodes[episodes.length-1 - i]}</option>`);
 }
-
-panelImg.src = `./panels/chapter_${episode+1}/split_${panels[0]+1}.webp`;
 
 function gameOver() {
     document.getElementById("episode-select").classList.add("no-input");
     document.getElementById("submit").innerText = "View results";
+    document.getElementById("unlimited").style.display = "block";
+
+    if (inUlimited) {
+        document.getElementById("chapter").innerText = 
+            `Your stats aren't tracked in unlimited mode.\n${episodes[episodes.length-1 - episode]}`;
+    }
 }
 
 function toggleResults() {
@@ -137,7 +162,7 @@ document.getElementById("submit").addEventListener("click", e => {
         toggleResults();
         alreadyGuessed = true;
         confetti();
-
+        
         let results = localStorage.getItem("guessDist");
 
         if (results == null || results == "null") {
@@ -150,20 +175,26 @@ document.getElementById("submit").addEventListener("click", e => {
 
         let sum = results[0] + results[1] + results[2];
 
-        results[guessNum] = results[guessNum] + 1;
+        if (!inUlimited) {
+            results[guessNum] = results[guessNum] + 1;
+        }
 
         let bars = document.getElementsByClassName("bar");
 
-        bars[guessNum].classList.add("current-bar");
+        if (!inUlimited) {
+            bars[guessNum].classList.add("current-bar");
+        }
 
         for (let i = 0; i < bars.length; i++) {
             bars[i].innerText = results[i];
             bars[i].style.width = (100*results[i] / (sum == 0 ? 1 : sum)) + "%";
         }
 
-        localStorage.setItem("guessDist", results);
-        localStorage.setItem("result", 1);
-        localStorage.setItem("solved-at", date.toDateString());
+        if (!inUlimited) {
+            localStorage.setItem("guessDist", results);
+            localStorage.setItem("result", 1);
+            localStorage.setItem("solved-at", date.toDateString());
+        }
 
         gameOver();
     } else {
@@ -191,8 +222,11 @@ document.getElementById("submit").addEventListener("click", e => {
                 bars[i].style.width = (100*results[i] / (sum == 0 ? 1 : sum)) + "%";
             }
 
-            localStorage.setItem("result", 1);
-            localStorage.setItem("solved-at", date.toDateString());
+            if (!inUlimited) {
+                localStorage.setItem("result", 1);
+                localStorage.setItem("solved-at", date.toDateString());
+            }
+            
 
             gameOver();
         }

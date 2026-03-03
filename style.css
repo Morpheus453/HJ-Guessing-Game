@@ -113,6 +113,18 @@ select {
     font-size: 1rem;
 }
 
+#unlimited {
+    width: 100%;
+    height: 50px;
+    border: none;
+    background-color: #3ecbfe;
+    color: rgb(23, 12, 12);
+    border-radius: 30px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
 #result {
     position: absolute;
     width: 100vw;
